@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 """
+Created on Thu Sep 10 17:19:39 2020
+
+@author: slemera
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Tue Sep  1 17:34:29 2020
 
 @author: slemera
 """
-#prova2
-<<<<<<< HEAD
-#prova fisso
-=======
-#prova portatile
->>>>>>> STC_dark_in_flight/master
+
 import os
 import glob
 import sys
@@ -86,162 +88,98 @@ CBD = 64
 #filtro = 'filterx'  #'panl' #'panh'
 spice_init()
 os.chdir('C:\\Users\\slemera\\Alessandra\\STC_CAL\\ICO1\\stc\\')
-direct= 'C:\\Users\\slemera\\Alessandra\\STC_CAL\\ICO1\\stc\\' 
-direct='C:\\Users\\slemera\\Alessandra\\STC_CAL\\01-dNECP\\02_-_STC_Mitigate_Reset_Test\\stc\\'
-# direct='C:\\Users\\slemera\\Alessandra\\STC_CAL\\01-dNECP\\01_-_STC_All_FPA_Test\\stc\\'
-# direct='C:\\Users\\slemera\\Alessandra\\STC_CAL\\01-dNECP\\03_pixel_caldo_test\\stc\\'
-     #   'C:\Users\slemera\Alessandra\STC_CAL\01-dNECP\03_-_STC_Hot_Pixel_Test\stc'
-#direct='C:\\Users\\slemera\\Alessandra\\STC_CAL\\01-dNECP\\06_-_Orbit_Test\\stc\\'
-
-
-directories=glob.glob(direct+'science_*')
-#directories=glob.glob('C:\\Users\\slemera\\Alessandra\\STC_CAL\\ICO1\\stc\\science*')
-#breakpoint()
+directories=glob.glob('C:\\Users\\slemera\\Alessandra\\STC_CAL\\ICO1\\stc\\science*')
 #dire = os.getcwd()+'\\'+tele_name+'\\'
 
 
-dati_tot=np.zeros((1,27))
-nomi_tot=np.zeros((1,9))
+dati_tot=np.zeros((1,19))
 #dati_tot=np.transpose(dati_tot)
-for g in range(0,len(directories)-1):
+
+for g in range(42,len(directories)):
     
     tele_name=[]
     str_split=directories[g].split('\\')
-    telecomando=str_split[8] #7
+    telecomando=str_split[7]
     dire = directories[g]
     #tele_name.append(telecomando)
-    print('direct=',directories[g])
     
-    win ='xxx_0'
-    filtro0,out0,last0,gen0,start_obs0 = dati_utili(dire,win)
+    filtro ='filterx'
+    ITfx,RTfx,TFPA1,TFPA2,TCh1,TCh2,TPE,start_obs_fx,start_obs_et_fx,media_fx,media64_fx,DSNU_fx,filter_fx  = dati_utili(dire,filtro)
   #  breakpoint()
-    win ='xxx_1'
-    filtro1,out1,last1,gen1,start_obs1  = dati_utili(dire,win)
-    #breakpoint()
-    if len(out1[0,:]) ==0:
-        out1=np.zeros(out0.shape)
-        filtro1= np.zeros(filtro0.shape)
-   # brew2akpoint()
-    win ='xxx_2'
-    filtro2,out2,last2,gen2,start_obs2  = dati_utili(dire,win)
-    if len(out2[0,:]) ==0:
-        out2=np.zeros(out0.shape)
-        filtro2= np.zeros(filtro0.shape)
-    win ='xxx_3'
-    filtro3,out3,last3,gen3,start_obs3  = dati_utili(dire,win)
-    if len(out3[0,:]) ==0:
-        out3=np.zeros(out0.shape)
-        filtro3= np.zeros(filtro0.shape)
-    win ='xxx_4'
-    filtro4,out4,last4,gen4,start_obs4  = dati_utili(dire,win)
-    if len(out4[0,:]) ==0:
-        out4=np.zeros(out0.shape)
-        filtro4= np.zeros(filtro0.shape)
-    win ='xxx_5'
-    filtro5,out5,last5,gen5,start_obs5  = dati_utili(dire,win)
-    if len(out5[0,:]) ==0:
-        out5=np.zeros(out0.shape)
-        filtro5= np.zeros(filtro0.shape)
-
+    filtro ='panl'
+    ITpl,RTpl,TFPA1,TFPA2,TCh1,TCh2,TPE,start_obs_pl,start_obs_et_pl,media_pl,media64_pl,DSNU_pl,filter_pl  = dati_utili(dire,filtro)
    # breakpoint()
-    
-    dati_fx =np.array(len(out0[:,0]))
-    for gg in range(0,len(out0[0,:])):
+    filtro ='panh'
+    ITph,RTph,TFPA1,TFPA2,TCh1,TCh2,TPE,start_obs_ph,start_obs_et_ph,media_ph,media64_ph,DSNU_ph,filter_ph  = dati_utili(dire,filtro)
+
+    dati_fx =np.array(len(ITfx))
+    for gg in range(0,len(ITfx)):
         tele_name.append(telecomando)
-    tname=np.transpose(np.array(tele_name))
-    print('telecomando=',telecomando)
-   # breakpoint()      
     
-    # tgen=np.transpose(gen0)
-    # tout0=np.transpose(out0)
-    # tout1=np.transpose(out1)
-    # tout2=np.transpose(out2)
-    # tout3=np.transpose(out3)
-    # tout4=np.transpose(out4)
-    # tout5=np.transpose(out5)
+    dati = np.vstack((tele_name,start_obs_fx,start_obs_et_fx,ITfx,RTfx,TFPA1,TFPA2,TCh1,TCh2,TPE,media_fx,media64_fx,DSNU_fx,media_pl,media64_pl,DSNU_pl,media_ph,media64_ph,DSNU_ph))
     #breakpoint()
-    dati = np.vstack((gen0,out0,out1,out2,out3,out4,out5))
-    nomi = np.vstack((tname,last0,start_obs0,filtro0,filtro1,filtro2,filtro3,filtro4,filtro5))
-      
-  #  breakpoint()
     dati_tras = np.transpose(dati)
     dati_tot = np.vstack((dati_tot,dati_tras))
-    nomi_tras=np.transpose(nomi)
-    nomi_tot = np.vstack((nomi_tot,nomi_tras))
-  #  breakpoint() 
-#dati_t= np.transpose(dati_tot)
-
-for u in range(2,len(dati_tot[:,0])):
-    dati_tot[u,3] = float(dati_tot[u,0])-float(dati_tot[u-1,0])
+    print('telecomando=',telecomando)
     
-colonne2 =  ['start_obs_et_[s]','IT_[s]','RT_mean_[s]','WT_[s]','TFPA1_[K]','TFPA2_[K]','TCh1_[K]','TCh2_[K]','TPE_[K]','mean_W1_[DN]','mean64_W1_[DN]','DSNU_W1','mean_W2_[DN]','mean64_W2_[DN]','DSNU_W2','mean_W3_[DN]','mean64_W3_[DN]','DSNU_W3','mean_W4_[DN]','mean64_W4_[DN]','DSNU_W4','mean_W5_[DN]','mean64_W5_[DN]','DSNU_W5','mean_W6_[DN]','mean64_W6_[DN]','DSNU_W6']    
-colonne1 =  ['TC','last_image','start_obs','name_W1','name_W2','name_W3','name_W4','name_W5','name_W6']
-#breakpoint()
-#dati_tot[0,11] =math.nan
-#dati_tot[1,11] =math.nan
-#df =pd.DataFrame(nomi_tot,dati_tot,columns = ['telecomando','last_image','start_obs','name_W1','name_W2','name_W3','name_W4','name_W5','name_W6','start_obs_et_[s]','IT_[s]','RT_mean_[s]','WT_[s]','TFPA1_[K]','TFPA2_[K]','TCh1_[K]','TCh2_[K]','TPE_[K]','mean_W1_[DN]','mean64_W1_[DN]','DSNU_W1','mean_W2_[DN]','mean64_W2_[DN]','DSNU_W2','mean_W3_[DN]','mean64_W3_[DN]','DSNU_W3','mean_W4_[DN]','mean64_W4_[DN]','DSNU_W4','mean_W5_[DN]','mean64_W5_[DN]','DSNU_W5','mean_W6_[DN]','mean64_W6_[DN]','DSNU_W6'])
 
-df1 =pd.DataFrame(nomi_tot,columns = colonne1)
-df2 =pd.DataFrame(dati_tot,columns = colonne2)
-df = df1.join(df2)
+#dati_t= np.transpose(dati_tot)
 breakpoint()
-os.chdir(direct)
-df.to_excel('data_'+'STC_ICO1.xls')
+df =pd.DataFrame(dati_tot,columns = ['telecomando','start_obs','start_obs_et_[s]','IT_[s]','RT_[s]','TFPA1_[K]','TFPA2_[K]','TCh1_[K]','TCh2_[K]','TPE_[K]','media_FX_[DN]','media64_FX_[DN]','DSNU_FX','media_PANL_[DN]','media64_PANL_[DN]','DSNU_PANL','media_PANH_[DN]','media64_PANH_[DN]','DSNU_PANH'])
+
+df.to_excel('data_'+'.xls','w+b')
 #f='imgs_'+tele_name+'_'+filtro+'.txt'
 #f.write(np.array2string(img,separator=','))
 
 
 #%%
-def dati_utili(directory,window):
+def dati_utili(directory,nome_filtro):
     
-    filexml=glob.glob(directory+'\\sim_img_*'+window+'_*.xml')
-    filedat=glob.glob(directory+'\\sim_img_*'+window+'*.dat')
+    filexml=glob.glob(directory+'\\sim_img_*'+nome_filtro+'_*.xml')
+    filedat=glob.glob(directory+'\\sim_img_*'+nome_filtro+'*.dat')
     
-    #breakpoint()
+    breakpoint()
     
-    start_obs = []
-    start_obs_et = []
+    start_obs= []
+    start_obs_et= []
     IT = []
-    media64 = []
-    media= []
+    media64 =[]
+    media=[]
     DSNU = []
     TFPA1 = []
     TFPA2 = []
     TCh1 = []
     TCh2 = []
     TPE = []
-    last_img = []
+    
     name_filter = []
-    RT1 = np.zeros(len(filexml))
+    RT = np.zeros(len(filexml))
     
     
-    for k in range(0,len(filexml)):
+    for k in range(0,len(filexml)-1):
           #print('iterazione=',k)
     
         tree = xml.parse(filexml[k])
         root = tree.root
-      #  breakpoint()
-        stringhe = filexml[k].split('_')
-        #breakpoint()
-        nome_filtro = stringhe[13]   #13  #11   #8
-        name_filter.append(nome_filtro)
-        ti_name=stringhe[15].split('.') #15  #13 #10
-        t_name=ti_name[0]
        # breakpoint()
-
-        last = 'FALSE'
-        if k == len(filexml)-1:
-            last ='TRUE'
-        last_img.append(last)        
+        stringhe = filexml[k].split('_')
+        nome_filtro = stringhe[8]
+        name_filter.append(nome_filtro)
+        ti_name=stringhe[10].split('.')
+        t_name=ti_name[0]
+        #breakpoint()
+        
         # for param in root.find('Obervation_Area'):
         #     nome_sequenza=param.attributes['name']
         #     timei = param.child('Time_Coordinates').child('Start_date_time').text
-        #     breakpoint()            
+        #     breakpoint()
+            
         # for param in root.find('Product_Observational'):
         #     nome_area = param.child('Observation_Area')
         #     #nome_sequenza=param.attributes['name']
         #     timei = param.child('Time_Coordinates').child('Start_date_time').text
-        #     breakpoint()        
+        #     breakpoint()
+        
         for i in root.find('Observation_Area'):
             chld=i.children()
             start_data = chld[0].child('start_date_time').text
@@ -250,16 +188,11 @@ def dati_utili(directory,window):
             start_obs_et.append(spiceypy.utc2et(data1[0]))
             if k >= 1:
                # breakpoint()
-                RT1[k] =float(start_obs_et[k])-float(start_obs_et[k-1])
-                if RT1[k] <0:
+                RT[k] =float(start_obs_et[k])-float(start_obs_et[k-1])
+                if RT[k] <0:
                     if name_filter[k] != name_filter[k-1]:
-                        RT1[k] = 0
+                        RT[k] = 0
                     #breakpoint()
-            else:
-                RT1[k] = 0.0
-               # breakpoint()
-            if len(filexml) < 2:
-                RT1[k] = 0.0
                 
             for u in range(0,len(chld)):
                 #print('u=', u)
@@ -297,28 +230,27 @@ def dati_utili(directory,window):
             stop_col = (float(stop_col)+1)*CBD-1
             dim_wind=np.zeros(4)
             dim_wind = [np.array(start_col,dtype=int),np.array(stop_col,dtype=int)+1,np.array(start_row,dtype=int),np.array(stop_row,dtype=int)]
-            # breakpoint()
+            
             dim_wind_x = (dim_wind[1]-dim_wind[0]) #diff colonne
             dim_wind_y = (dim_wind[3]-dim_wind[2]+1) #diff righe
-            #dim_img=np.multiply(dim_wind[0],dim_wind[1])
+            dim_img=np.multiply(dim_wind[0],dim_wind[1])
            # breakpoint()
             if k == 0:
                 img =np.zeros((dim_wind_y,dim_wind_x))
             #breakpoint()
-            img_file=glob.glob(dire+'\\*'+window+'*'+t_name+'.dat')
+            img_file=glob.glob(dire+'\\*'+nome_filtro+'*'+t_name+'.dat')
             #breakpoint()
             #prova = open(img_file[0],'rb')
             #imag = prova.read(dim_img[0])
-        #    breakpoint()
             mat_filter=np.fromfile(img_file[0], dtype ='int16')
-           # breakpoint()
+            
             mat_filter=mat_filter.reshape([dim_wind_y,dim_wind_x])
             #img = np.dstack((img,mat_filter))
             media.append(np.mean(mat_filter)) #media in DN del filtro intero
             numcol=len(mat_filter[0,:])
             media64.append(np.mean(mat_filter[:,numcol-65:numcol-1])) #media delle ultime 64 colonne del filtro
             DSNU.append(np.std(mat_filter))
-           
+    
     
             for uu in range (0,len(chld2)-1):
                 if chld2[uu] == '<xml4h.nodes.Element: "simbio:STC">':
@@ -333,12 +265,9 @@ def dati_utili(directory,window):
             TCh1.append(chld2[15].children()[3].children()[1].text)
             TCh2.append(chld2[15].children()[4].children()[1].text)
 
-
     name_filter= np.array(name_filter)
     IT =np.array(IT,dtype=float)
-    RT =np.array(RT1[0:len(RT1)],dtype=float) #REPETITION TIME MEDIO
-    #breakpoint()
-    WT = RT1   #WAITING TIME
+    RT =np.array(RT[0:len(RT)-1],dtype=float)
     TFPA1 =np.array(TFPA1,dtype=float)
     TFPA2 =np.array(TFPA2,dtype=float)
     TCh1 =np.array(TCh1,dtype=float)
@@ -349,35 +278,9 @@ def dati_utili(directory,window):
     media=np.array(media,dtype=float)
     media64=np.array(media64,dtype=float)
     DSNU=np.array(DSNU,dtype=float)            
-    
-    last_img=np.array(last_img)
- #   breakpoint()
-    RT_mean=np.zeros(RT.shape)
-    # breakpoint()
-    for h in range(0,len(RT)):
-        RT_mean[h]=np.nanmean(RT[1:len(RT)])
-    if len(filexml) == 1:
-        RT_mean = np.zeros(1)
-        #breakpoint()
-        
-    # print('RT_MEAN=',RT_mean)
-    # print('RT=',RT)
-    # print('RT1=',RT1)
-    # if len(RT) < 3:
-    #     if len(RT) < 2:
-    #         RT_mean = RT
-    #     else:
-    #         RT_mean = RT[1]
-    #print(RT)
    # breakpoint()
-    out_window=np.vstack((media,media64,DSNU))
-    out_gen=np.vstack((start_obs_et,IT,RT_mean,WT,TFPA1,TFPA2,TCh1,TCh2,TPE))
-    
-    # if window == 'xxx_0':        
-    #     breakpoint()
-    #return IT,RT,TFPA1,TFPA2,TCh1,TCh2,TPE,start_obs,start_obs_et,media,media64,DSNU,name_filter#,mat_filter   
-    return name_filter,out_window,last_img,out_gen,start_obs
-    
+    return IT,RT,TFPA1,TFPA2,TCh1,TCh2,TPE,start_obs,start_obs_et,media,media64,DSNU,name_filter#,mat_filter   
+
 
 
 
