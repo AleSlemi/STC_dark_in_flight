@@ -5,11 +5,11 @@ Created on Tue Sep  1 17:34:29 2020
 @author: slemera
 """
 #prova2
-<<<<<<< HEAD
+
 #prova fisso
-=======
+
 #prova portatile
->>>>>>> STC_dark_in_flight/master
+
 import os
 import glob
 import sys
