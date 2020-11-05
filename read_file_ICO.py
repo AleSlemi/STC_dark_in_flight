@@ -5,6 +5,7 @@ Created on Tue Sep  1 17:34:29 2020
 @author: slemera
 """
 #prova2
+#prova fisso
 import os
 import glob
 import sys
