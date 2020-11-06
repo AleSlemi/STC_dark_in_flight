@@ -4,12 +4,7 @@ Created on Tue Sep  1 17:34:29 2020
 
 @author: slemera
 """
-#prova2
-<<<<<<< HEAD
-#prova fisso
-=======
-#prova portatile
->>>>>>> STC_dark_in_flight/master
+
 import os
 import glob
 import sys
@@ -49,8 +44,10 @@ import iso8601
 
 #%%
 
-META_KERNEL = 'C:\\Users\\slemera\\Alessandra\\modello_radiometrico_Mercurio\\Bepi_spice\\spice180316\\bc_preops_v041_MTC_mar18.mk' # 'solo_ANC_soc-flown-mk.tm'
-KERNEL_PATH = 'C:\\Users\\slemera\\Alessandra\\modello_radiometrico_Mercurio\\Bepi_spice\\spice180316\\'  # '../kernels/solar-orbiter/kernels/mk'
+META_KERNEL = 'C:\\Alessandra\\SPICE\\spice_Bepi190729\\kernels\\bc_preops_v041_MTC_mar18.mk' # 'solo_ANC_soc-flown-mk.tm'
+KERNEL_PATH = 'C:\\Alessandra\\SPICE\\spice_Bepi190729\\kernels\\'
+          # ''../kernels/solar-orbiter/kernels/mk'
+
 SPICE_LOADED = True
 
 def chdir(path):
@@ -66,7 +63,7 @@ def chdir(path):
 
 def spice_init():
     
-    META_KERNEL = 'C:\\Users\\slemera\\Alessandra\\modello_radiometrico_Mercurio\\Bepi_spice\\spice180316\\bc_preops_v041_MTC_mar18.mk' # 'solo_ANC_soc-flown-mk.tm'
+    META_KERNEL = 'C:\\Alessandra\\SPICE\\spice_Bepi190729\\kernels\\bc_preops_v041_MTC_mar18.mk' # 'solo_ANC_soc-flown-mk.tm'
     spiceypy.furnsh(META_KERNEL)
     # global SPICE_LOADED
     # if not SPICE_LOADED:
@@ -85,10 +82,15 @@ CBD = 64
 #tele_name ='science_0001'
 #filtro = 'filterx'  #'panl' #'panh'
 spice_init()
-os.chdir('C:\\Users\\slemera\\Alessandra\\STC_CAL\\ICO1\\stc\\')
+os.chdir('C:\\Alessandra\\STC_CAL\\DARK_IN_FLIGHT\\')
 direct= 'C:\\Users\\slemera\\Alessandra\\STC_CAL\\ICO1\\stc\\' 
 direct='C:\\Users\\slemera\\Alessandra\\STC_CAL\\01-dNECP\\02_-_STC_Mitigate_Reset_Test\\stc\\'
-# direct='C:\\Users\\slemera\\Alessandra\\STC_CAL\\01-dNECP\\01_-_STC_All_FPA_Test\\stc\\'
+os.chdir('.\\DAY_2_OutPass\\STC_Performance_Test\\stc\\')
+breakpoint()
+direct='C:\\Alessandra\\STC_CAL\\DARK_IN_FLIGHT\\DAY_2_OutPass\\STC_Performance_Test\\stc\\'
+direct='C:\\Alessandra\\STC_CAL\\DARK_IN_FLIGHT\\DAY_3\\07_-_STC_Outpass_2_recovery\\stc\\'
+direct='C:\\Alessandra\\STC_CAL\\DARK_IN_FLIGHT\\DAY_3\\04_-_ORBIT_Test\\stc\\'
+direct='C:\\Alessandra\\STC_CAL\\DARK_IN_FLIGHT\\DAY_3\\02_-_MAX_STRESS_Test\\stc\\'
 # direct='C:\\Users\\slemera\\Alessandra\\STC_CAL\\01-dNECP\\03_pixel_caldo_test\\stc\\'
      #   'C:\Users\slemera\Alessandra\STC_CAL\01-dNECP\03_-_STC_Hot_Pixel_Test\stc'
 #direct='C:\\Users\\slemera\\Alessandra\\STC_CAL\\01-dNECP\\06_-_Orbit_Test\\stc\\'
@@ -107,45 +109,45 @@ for g in range(0,len(directories)-1):
     
     tele_name=[]
     str_split=directories[g].split('\\')
-    telecomando=str_split[8] #7
+    telecomando=str_split[7] #7
     dire = directories[g]
     #tele_name.append(telecomando)
     print('direct=',directories[g])
     
-    win ='xxx_0'
+    win ='_0'
     filtro0,out0,last0,gen0,start_obs0 = dati_utili(dire,win)
-  #  breakpoint()
-    win ='xxx_1'
+   # breakpoint()
+    win ='_1'
     filtro1,out1,last1,gen1,start_obs1  = dati_utili(dire,win)
-    #breakpoint()
+  #  breakpoint()
     if len(out1[0,:]) ==0:
         out1=np.zeros(out0.shape)
         filtro1= np.zeros(filtro0.shape)
-   # brew2akpoint()
-    win ='xxx_2'
+   # breakpoint()
+    win ='_2'
     filtro2,out2,last2,gen2,start_obs2  = dati_utili(dire,win)
     if len(out2[0,:]) ==0:
         out2=np.zeros(out0.shape)
         filtro2= np.zeros(filtro0.shape)
-    win ='xxx_3'
+    win ='_3'
     filtro3,out3,last3,gen3,start_obs3  = dati_utili(dire,win)
     if len(out3[0,:]) ==0:
         out3=np.zeros(out0.shape)
         filtro3= np.zeros(filtro0.shape)
-    win ='xxx_4'
+    win ='_4'
     filtro4,out4,last4,gen4,start_obs4  = dati_utili(dire,win)
     if len(out4[0,:]) ==0:
         out4=np.zeros(out0.shape)
         filtro4= np.zeros(filtro0.shape)
-    win ='xxx_5'
+    win ='_5'
     filtro5,out5,last5,gen5,start_obs5  = dati_utili(dire,win)
     if len(out5[0,:]) ==0:
         out5=np.zeros(out0.shape)
         filtro5= np.zeros(filtro0.shape)
 
-   # breakpoint()
+  #  breakpoint()
     
-    dati_fx =np.array(len(out0[:,0]))
+   # dati_fx =np.array(len(out0[:,0]))
     for gg in range(0,len(out0[0,:])):
         tele_name.append(telecomando)
     tname=np.transpose(np.array(tele_name))
@@ -186,7 +188,7 @@ df2 =pd.DataFrame(dati_tot,columns = colonne2)
 df = df1.join(df2)
 breakpoint()
 os.chdir(direct)
-df.to_excel('data_'+'STC_ICO1.xls')
+df.to_excel('data_'+'STC_ORBIT_Test.xls') #MAX_STRESS_Test
 #f='imgs_'+tele_name+'_'+filtro+'.txt'
 #f.write(np.array2string(img,separator=','))
 
@@ -197,7 +199,7 @@ def dati_utili(directory,window):
     filexml=glob.glob(directory+'\\sim_img_*'+window+'_*.xml')
     filedat=glob.glob(directory+'\\sim_img_*'+window+'*.dat')
     
-    #breakpoint()
+  #  breakpoint()
     
     start_obs = []
     start_obs_et = []
@@ -222,12 +224,12 @@ def dati_utili(directory,window):
         root = tree.root
       #  breakpoint()
         stringhe = filexml[k].split('_')
-        #breakpoint()
-        nome_filtro = stringhe[13]   #13  #11   #8
+        # breakpoint()
+        nome_filtro = stringhe[14]   #13  #11   #8
         name_filter.append(nome_filtro)
-        ti_name=stringhe[15].split('.') #15  #13 #10
+        ti_name=stringhe[16].split('.') #15  #13 #10
         t_name=ti_name[0]
-       # breakpoint()
+        # breakpoint()
 
         last = 'FALSE'
         if k == len(filexml)-1:
@@ -369,7 +371,7 @@ def dati_utili(directory,window):
     #     else:
     #         RT_mean = RT[1]
     #print(RT)
-   # breakpoint()
+  #  breakpoint()
     out_window=np.vstack((media,media64,DSNU))
     out_gen=np.vstack((start_obs_et,IT,RT_mean,WT,TFPA1,TFPA2,TCh1,TCh2,TPE))
     
